@@ -1,0 +1,981 @@
+1 MOUSE OFF
+RANDOMIZE TIMER
+DATA "Boeing,,,,,,,,,,,,",2
+DATA "Citycorp,,,,,,,,,,",2
+DATA "Exxon,,,,,,,,,,,,,",1
+DATA "Ford,,,,,,,,,,,,,,",2
+DATA "General Electric,,",4
+DATA "General Motors,,,,",2
+DATA "Goodyear,,,,,,,,,,",5
+DATA "Mobil,,,,,,,,,,,,,",2
+DATA "ITT,,,,,,,,,,,,,,,",4
+DATA "USX,,,,,,,,,,,,,,,",1
+DATA "IBM,,,,,,,,,,,,,,,",4
+DATA "Texaco,,,,,,,,,,,,",2
+DATA "Porsche,,,,,,,,,,,",2
+DATA "Bayer,,,,,,,,,,,,,",1
+DATA "Sony,,,,,,,,,,,,,,",4
+DATA "Toyota,,,,,,,,,,,,",2
+DATA "Michelin,,,,,,,,,,",5
+DATA "Shell,,,,,,,,,,,,,",2
+DATA "Peugeot,,,,,,,,,,,",2
+DATA "Renault,,,,,,,,,,,",2
+DATA "Citroen,,,,,,,,,,,",2
+DATA "L'oreal,,,,,,,,,,,",1
+DATA "Perrier,,,,,,,,,,,",6
+DATA "Lacoste,,,,,,,,,,,",7
+DATA "Air France,,,,,,,,",2
+DATA "EDF,,,,,,,,,,,,,,,",4
+DATA "SNCF,,,,,,,,,,,,,,",2
+DATA "Danone,,,,,,,,,,,,",6
+DATA "IBM,,,,,,,,,,,,,,,",4
+DATA "Texaco,,,,,,,,,,,,",2
+DATA "Porsche,,,,,,,,,,,",2
+DATA "Bayer,,,,,,,,,,,,,",1
+DATA "Sony,,,,,,,,,,,,,,",4
+DATA "Toyota,,,,,,,,,,,,",2
+DATA "Michelin,,,,,,,,,,",5
+DATA "Shell,,,,,,,,,,,,,",2
+DATA "VW,,,,,,,,,,,,,,,,",2
+DATA "Siemens,,,,,,,,,,,",1
+DATA "Deutsche Bank,,,,,",3
+DATA "Linde,,,,,,,,,,,,,",3
+DATA "Tyssen,,,,,,,,,,,,",4
+DATA "BMW,,,,,,,,,,,,,,,",2
+DATA "Puma,,,,,,,,,,,,,,",7
+DATA "Moninger,,,,,,,,,,",6
+DATA "AEG,,,,,,,,,,,,,,,",3
+DATA "Commerzbank,,,,,,,",3
+DATA "IBM,,,,,,,,,,,,,,,",4
+DATA "Texaco,,,,,,,,,,,,",2
+DATA "Porsche,,,,,,,,,,,",2
+DATA "Bayer,,,,,,,,,,,,,",1
+DATA "Sony,,,,,,,,,,,,,,",4
+DATA "Toyota,,,,,,,,,,,,",2
+DATA "Michelin,,,,,,,,,,",5
+DATA "Shell,,,,,,,,,,,,,",2
+DATA "Honda,,,,,,,,,,,,,",2
+DATA "Mitsubishi,,,,,,,,",2
+DATA "Kawasaki,,,,,,,,,,",2
+DATA "Suzuki,,,,,,,,,,,,",2
+DATA "Nissan,,,,,,,,,,,,",2
+DATA "Madzda,,,,,,,,,,,,",2
+DATA "Fuji,,,,,,,,,,,,,,",4
+DATA "Panasonic,,,,,,,,,",4
+DATA "Datsun,,,,,,,,,,,,",2
+DATA "Yahama,,,,,,,,,,,,",2
+DATA "IBM,,,,,,,,,,,,,,,",4
+DATA "Texaco,,,,,,,,,,,,",2
+DATA "Porsche,,,,,,,,,,,",2
+DATA "Bayer,,,,,,,,,,,,,",1
+DATA "Sony,,,,,,,,,,,,,,",4
+DATA "Toyota,,,,,,,,,,,,",2
+DATA "Michelin,,,,,,,,,,",5
+DATA "Shell,,,,,,,,,,,,,",2
+DATA "Boeing",50
+DATA "Citycorp",10
+DATA "Exxon",50
+DATA "Ford",30
+DATA "General Electric",50
+DATA "General Motors",35
+DATA "Goodyear",15
+DATA "Mobil",55
+DATA "ITT",45
+DATA "USX",30
+DATA "IBM",105
+DATA "Texaco",60
+DATA "Porsche",520
+DATA "Bayer",230
+DATA "Sony",300
+DATA "Toyota",200
+DATA "Michelin",620
+DATA "Shell",500
+DATA "Peugeot",150
+DATA "Renault",200
+DATA "Citroen",165
+DATA "L'oreal",185
+DATA "Perrier",235
+DATA "Lacoste",680
+DATA "Air France",135
+DATA "EDF",215
+DATA "SNCF",785
+DATA "Danone",165
+DATA "IBM",105
+DATA "Texaco",60
+DATA "Porsche",520
+DATA "Bayer",230
+DATA "Sony",300
+DATA "Toyota",200
+DATA "Michelin",620
+DATA "Shell",500
+DATA "VW",265
+DATA "Siemens",365
+DATA "Deutsche Bank",410
+DATA "Linde",500
+DATA "Tyssen",130
+DATA "BMW",270
+DATA "Puma",130
+DATA "Moninger",280
+DATA "AEG",150
+DATA "Commerzbank",150
+DATA "IBM",105
+DATA "Texaco",60
+DATA "Porsche",520
+DATA "Bayer",230
+DATA "Sony",300
+DATA "Toyota",200
+DATA "Michelin",620
+DATA "Shell",500
+DATA "Honda",10
+DATA "Mitsubishi",5
+DATA "Kawasaki",30
+DATA "Suzuki",50
+DATA "Nissan",30
+DATA "Madzda",60
+DATA "Fuji",20
+DATA "Panasonic",150
+DATA "Datsun",30
+DATA "Yahama",40
+DATA "IBM",105
+DATA "Texaco",60
+DATA "Porsche",520
+DATA "Bayer",230
+DATA "Sony",300
+DATA "Toyota",200
+DATA "Michelin",620
+DATA "Shell",500
+SCREEN 2,645,270,3,2
+WINDOW 2,,,16,2
+PALETTE 1,0,0,0
+state$(1)="New York"
+state$(3)="Frankfurt"
+state$(2)="Paris"
+state$(4)="Tokio"
+avc$="Mini.font"
+DECLARE FUNCTION AskSoftStyle& LIBRARY
+DECLARE FUNCTION OpenDiskFont& LIBRARY
+DECLARE FUNCTION Execute& LIBRARY
+LIBRARY "/bmaps/graphics.library"
+LIBRARY "diskfont.library"
+font avc$,8,0,0  
+GOTO sc: 
+SUB font(fontName$, height%, style%, prefs%) STATIC
+SHARED pFont&
+IF pFont&<>0 THEN CALL CloseFont(pFont&)
+fontName0$=fontName$+CHR$(0)
+textAttr&(0)=SADD(fontName0$)
+textAttr&(1)=height%*65536& + style%*256 + prefs%
+pFont&=OpenDiskFont&(VARPTR(textAttr&(0)))
+IF pFont& <> 0 THEN SetFont WINDOW(8),pFont&
+END SUB
+SUB SetStyle(mask%) STATIC
+SHARED enable%
+SetSoftStyle WINDOW(8),mask%,enable%
+END SUB
+SUB DosLibDemo STATIC
+LIBRARY "/bmaps/dos.library"
+x=Execute&(SADD("list >RAM:temp"+CHR$(0)), 0, 0)
+OPEN "RAM:temp" FOR INPUT AS 1
+WHILE NOT EOF(1)
+LINE INPUT #1,a$
+WEND
+CLOSE
+KILL "RAM:temp"
+END SUB
+a1:
+IF b-90<35-(p1*35) THEN p1=p1+.05:IF p1>1 THEN p1=1
+IF b-90>35-(p1*35) THEN p1=p1-.05:IF p1<0 THEN p1=0
+GOTO fa:
+a2:
+IF b-90<35-(p2*35) THEN p2=p2+.05:IF p2>1 THEN p2=1
+IF b-90>35-(p2*35) THEN p2=p2-.05:IF p2<0 THEN p2=0
+GOTO fa:
+a3:
+IF b-90<35-(p3*35) THEN p3=p3+.05:IF p3>1 THEN p3=1
+IF b-90>35-(p3*35) THEN p3=p3-.05:IF p3<0 THEN p3=0
+GOTO fa:
+sc:
+CLS
+LOCATE 4,40
+COLOR 3,0
+PALETTE 8,1,1,1
+PRINT "Spieleranzahl"
+PALETTE 0,0,0,0
+PALETTE 2,1,0,0
+PALETTE 3,1,.8,0
+FOR x=30 TO 475 STEP 125
+LINE (x,120)-(x+100,150),3,bf
+NEXT x
+COLOR 2,3
+LOCATE 23,14
+PRINT "1"
+LOCATE 23,35
+PRINT "2"
+LOCATE 23,56
+PRINT "3"
+LOCATE 23,76
+PRINT "4"
+ny:
+IF MOUSE(0)=0 THEN ny:
+a=MOUSE(3):b=MOUSE(4)
+IF a<130 AND a>30 AND b<150 AND b>120 THEN s=1:GOTO wla:
+IF a<255 AND a>155 AND b<150 AND b>120 THEN s=2:GOTO wla:
+IF a<380 AND a>280 AND b<150 AND b>120 THEN s=3:GOTO wla:
+IF a<505 AND a>405 AND b<150 AND b>120 THEN s=4:GOTO wla:
+GOTO ny:
+wla:
+GOSUB schei:
+COLOR 2,0
+DIM aktien(71,s-1),heim(3),akti(71),st(122),akt$(71),akt(71),na$(s),s(71,9),g(s-1),be(s-1),gg(30,s-1),av(30,s-1),gv(30,s-1),ak$(71),ak(71),rank(s-1)
+REM g: Geld
+REM av: Aktienvermoegen
+REM gv: Gesamtvermoegen
+FOR a=0 TO 71
+READ ak$(a),akt(a)  
+NEXT a
+FOR a=0 TO 71
+READ akt$(a),ak(a)
+NEXT a
+FOR xx=1 TO s
+CLS
+PALETTE 0,0,0,0
+LOCATE 11,12
+COLOR 3,0
+PRINT xx;",Spieler"
+COLOR 2,0
+LINE (50,70)-(153,130),2,b
+FOR x=0 TO 2
+y=x*25
+LINE (55+y,89)-(75+y,126),2,b
+NEXT x
+LINE (505,200)-(600,227),3,bf
+PAINT (51,76),2
+COLOR 0,3
+LOCATE 36,91
+PRINT "ENDE"
+COLOR 0,2
+LOCATE 21,23
+PRINT  "0"
+LOCATE 16,23
+PRINT "1"
+LINE (54,74)-(126,84),0,b
+b=0
+COLOR 3,0
+LOCATE 12,69
+PRINT "Heimatstadt:"
+FOR a=76 TO 112 STEP 12
+b=b+1
+LINE (400,a)-(500,a+8),2,bf
+LINE (401,a+1)-(409,a+7),0,bf
+LOCATE b*2+12,70
+COLOR 3,2
+PRINT state$(b)
+NEXT a
+LINE (401,77)-(409,83),xx+3,bf
+b=0
+FOR a=0 TO 71
+s(a,0)=ak(a)
+NEXT a
+GOTO lk:
+ka:
+LOCATE 14,11
+LINE (55,75)-(125,83),2,bf
+COLOR 3,2
+while inkey$<>"":wend
+INPUT "",na$(xx)
+COLOR 2,0
+IF LEN(na$)>10 THEN ka:
+FOR a=1 TO 20:v=MOUSE(0):NEXT a:GOTO ss:
+mnbgf:
+IF heim(xx-1)=0 THEN LINE (401,77)-(409,83),0,bf
+IF heim(xx-1)=1 THEN LINE (401,89)-(409,95),0,bf
+IF heim(xx-1)=2 THEN LINE (401,101)-(409,107),0,bf
+IF heim(xx-1)=3 THEN LINE (401,113)-(409,119),0,bf
+heim(xx-1)=c
+IF heim(xx-1)=0 THEN LINE (401,77)-(409,83),xx+3,bf
+IF heim(xx-1)=1 THEN LINE (401,89)-(409,95),xx+3,bf
+IF heim(xx-1)=2 THEN LINE (401,101)-(409,107),xx+3,bf
+IF heim(xx-1)=3 THEN LINE (401,113)-(409,119),xx+3,bf
+RETURN
+lk:
+p1=.5:p2=.5:p3=.5:pp1=50:pp2=50:pp3=50
+fa:
+LINE (60,35+90-(pp1*35))-(70,35+90-(pp1*35)),0
+LINE (60,35+90-(p1*35))-(70,35+90-(p1*35)),2
+LINE (85,35+90-(pp2*35))-(95,35+90-(pp2*35)),0
+LINE (85,35+90-(p2*35))-(95,35+90-(p2*35)),2
+LINE (110,35+90-(pp3*35))-(120,35+90-(pp3*35)),0
+LINE (110,35+90-(p3*35))-(120,35+90-(p3*35)),2
+pp1=p1
+pp2=p2
+pp3=p3
+PALETTE xx+3,p1,p2,p3
+LINE (50,131)-(153,141),xx+3,bf
+ss:
+v=MOUSE(0):IF v=0 OR k>0 THEN k=-1:GOTO ss:
+a=MOUSE(3):b=MOUSE(4):IF a>505 AND a<600 AND b>200 AND b<227 THEN w:
+IF a>55 AND a<125 AND b>75 AND b<83 THEN ka:
+FOR c=0 TO 3
+IF a<410 AND a>400 AND b>76+c*12 AND b<84+c*12 THEN GOSUB mnbgf:
+NEXT c
+IF b>125 OR b<90 THEN ss:
+IF a>55 AND a<75 THEN a1:
+IF a>80 AND a<100 THEN a2:
+IF a>105 AND a<125 THEN a3:
+GOTO ss:
+w:
+k=20
+p(xx)=p1:pp(xx)=p2:ppp(xx)=p3
+NEXT xx
+FOR m=0 TO s-1
+g(m)=20000
+NEXT m
+GOTO Kurstafel:
+schei:
+FOR a=1 TO 20
+v=MOUSE(0)
+NEXT a
+RETURN
+Kurstafel:
+COLOR 1,0
+CLS
+GOSUB farbenen:
+vv=0
+COLOR 2,0
+font "mini.font",8,0,0
+LOCATE 1,1
+PRINT "New York:"
+LOCATE 22,1
+PRINT "Paris:"
+LOCATE 1,63
+PRINT "Frankfurt:"
+LOCATE 22,63
+PRINT "Tokio:"
+COLOR 3,0
+FOR b=0 TO 17
+LOCATE 2+b,1
+COLOR 3,0
+IF ak(b)<10 THEN PRINT ak$(b);"   ";ak(b):GOTO nx:
+IF ak(b)<100 THEN PRINT ak$(b);"  ";ak(b):GOTO nx:
+IF ak(b)<1000 THEN PRINT ak$(b);" ";ak(b):GOTO nx:
+PRINT ak$(b);ak(b)
+nx:
+LOCATE 2+b,30
+IF akti(b)>-.0000001# THEN COLOR 3,0
+IF akti(b)<0 THEN COLOR 2,0
+IF akti(b)>0 AND akti(b)<1 THEN PRINT " ";
+IF akti(b)<0 AND akti(b)>-1 THEN a$=STR$(akti(b)):PRINT "-0.";MID$(a$,3,4):GOTO nm:
+PRINT akti(b)
+IF akti(b)>0 THEN LOCATE 2+b,30:PRINT "+";:IF akti(b)<1 AND akti(b)>0 THEN PRINT "0"
+LOCATE 2+b,35
+PRINT "%"
+nm:
+NEXT b
+FOR b=0 TO 17
+LOCATE 23+b,1
+COLOR 3,0
+IF ak(b+18)<10 THEN PRINT ak$(b+18);"   ";ak(b+18):GOTO nc:
+IF ak(b+18)<100 THEN PRINT ak$(b+18);"  ";ak(b+18):GOTO nc:
+IF ak(b+18)<1000 THEN PRINT ak$(b+18);" ";ak(b+18):GOTO nc:
+PRINT ak$(b+18);ak(b+18)
+nc:
+LOCATE 23+b,30
+IF akti(b+18)>-.0000001# THEN COLOR 3,0
+IF akti(b+18)<0 THEN COLOR 2,0
+IF akti(b+18)>0 AND akti(b+18)<1 THEN PRINT " ";
+IF akti(b+18)<0 AND akti(b+18)>-1 THEN a$=STR$(akti(b+18)):PRINT "-0.";MID$(a$,3,4):GOTO nj:
+PRINT akti(b+18)
+IF akti(b+18)>0 THEN LOCATE 23+b,30:PRINT "+";:IF akti(b+18)<1 AND akti(b+18)>0 THEN PRINT "0"
+LOCATE 23+b,35
+PRINT "%"
+nj:
+NEXT b
+FOR a=0 TO 71
+FOR b=9 TO 1 STEP -1
+s(a,b)=s(a,b-1)
+NEXT b
+s(a,0)=ak(a)
+NEXT a
+FOR b=0 TO 17
+LOCATE 2+b,63
+COLOR 3,0
+IF ak(b+36)<10 THEN PRINT ak$(b+36);"   ";ak(b+36):GOTO nv:
+IF ak(b+36)<100 THEN PRINT ak$(b+36);"  ";ak(b+36):GOTO nv:
+IF ak(b+36)<1000 THEN PRINT ak$(b+36);" ";ak(b+36):GOTO nv:
+PRINT ak$(b+36);ak(b+36)
+nv:
+LOCATE 2+b,92
+IF akti(b+36)>-.0000001# THEN COLOR 3,0
+IF akti(b+36)<0 THEN COLOR 2,0
+IF akti(b+36)>0 AND akti(b+36)<1 THEN PRINT " ";
+IF akti(b+36)<0 AND akti(b+36)>-1 THEN a$=STR$(akti(b+36)):PRINT "-0.";MID$(a$,3,4):GOTO nk:
+PRINT akti(b+36)
+IF akti(b+36)>0 THEN LOCATE 2+b,92:PRINT "+";:IF akti(b+36)<1 AND akti(b+36)>0 THEN PRINT "0"
+LOCATE 2+b,97
+PRINT "%"
+nk:
+NEXT b
+FOR b=0 TO 17
+COLOR 3,0
+LOCATE 23+b,63
+IF ak(b+54)<10 THEN PRINT ak$(b+54);"   ";ak(b+54):GOTO nb:
+IF ak(b+54)<100 THEN PRINT ak$(b+54);"  ";ak(b+54):GOTO nb:
+IF ak(b+54)<1000 THEN PRINT ak$(b+54);" ";ak(b+54):GOTO nb:
+PRINT ak$(b+54);ak(b+54)
+nb:
+LOCATE 23+b,92
+IF akti(b+54)>-.0000001# THEN COLOR 3,0
+IF akti(b+54)<0 THEN COLOR 2,0
+IF akti(b+54)>0 AND akti(b+54)<1 THEN PRINT " ";
+IF akti(b+54)<0 AND akti(b+54)>-1 THEN a$=STR$(akti(b+54)):PRINT "-0.";MID$(a$,3,4):GOTO nl:
+PRINT akti(b+54)
+IF akti(b+54)>0 THEN LOCATE 23+b,92:PRINT "+";:IF akti(b+54)<1 AND akti(b+54)>0 THEN PRINT "0"
+LOCATE 23+b,97
+PRINT "%"
+nl:
+NEXT b
+GOSUB farbene:
+GOSUB mau:
+CLS
+GOSUB farbenen:
+LOCATE 3,1
+FOR a=1 TO 10
+b(a)=0
+NEXT a
+FOR a=1 TO 100
+IF a<>17 THEN st(a)=0
+NEXT a
+COLOR 3,0
+FOR d=1 TO 6
+a=INT(RND*121)+1
+IF a=1 AND st(a)=0 THEN st(a)=1:me$(d)="Erhöhung der Ölpreise":b=1:c=-2:GOSUB akt:b=2:c=-1.5:GOSUB akt:b=4:c=-.5:GOSUB akt:b=5:c=-.5:GOSUB akt:GOTO txen:
+IF a=2 AND st(a)=0 THEN st(a)=1:me$(d)="Teilweise Rückzahlung der Schulden der USA":b=8:c=1:GOSUB akt:GOTO txen:
+IF a=3 AND st(a)=0 THEN st(a)=1:me$(d)="Unizef fordert von Textilindustrie Spenden fuer Afrika":b=7:c=-2:GOSUB akt:GOTO txen:
+IF a=4 AND st(a)=0 THEN st(a)=1:me$(d)="Unizef fordert von Lebensmittelindustrie Spenden fuer Lateinamerika":b=6:c=-2:GOSUB akt:GOTO txen:
+IF a=5 AND st(a)=0 THEN st(a)=1:me$(d)="Katastrophe im französischen Entsorgungslager":b=9:c=-.1:GOSUB akt:GOTO txen:
+IF a=6 AND st(2)=0 THEN st(2)=1:me$(d)="Schuldenerhöhung der USA":b=8:c=-1:GOSUB akt:GOTO txen:
+IF a=7 AND st(a)=0 THEN st(a)=1:me$(d)="Erdbeben in Tokio":b=11:c=-2:GOSUB akt:GOTO txen:
+IF a=8 AND st(a)=0 THEN st(a)=1:me$(d)="Überflutung der Dämme in N-Deutschland durch Treibhauseffeckt":b=10:c=-2:GOSUB akt:GOTO txen
+IF a=9 AND st(a)=0 THEN st(a)=1:me$(d)="Frankreich übertrifft sich im Exportieren":b=9:c=.1:GOSUB akt:GOTO txen:
+IF a=10 AND st(a)=0 THEN st(a)=1:me$(d)="Wirtschaftswachstum in Deutschland steigt um 1%":b=10:c=2:GOSUB akt:GOTO txen:
+IF a=11 AND st(a)=0 THEN st(a)=1:me$(d)="Verbrauch von Nahrungsmitteln gestiegen":b=6:c=2:GOSUB akt:GOTO txen:
+IF a=12 AND st(a)=0 THEN st(a)=1:me$(d)="Banken sehr gefragt":b=3:c=1.5:GOSUB akt:GOTO txen:
+IF a=13 AND st(a)=0 THEN st(a)=1:me$(d)="Bankräube häufen sich":b=3:c=-1.5:GOSUB akt:GOTO txen:
+IF a=14 AND st(a)=0 THEN st(a)=1:me$(d)="Verbrauch von Bekleidungsstücken gestiegen":b=7:c=2:GOSUB akt:GOTO txen:
+IF a=15 AND st(a)=0 THEN st(a)=1:me$(d)="Auto-,Eisenbahn- und Flugzeugunfälle häufen sich":b=2:c=-3:GOSUB akt:b=5:c=-1:GOSUB akt:GOTO txen:
+IF a=16 AND st(a)=0 THEN st(a)=1:me$(d)="Chemie erfindet neue Medikamente bzw. Sprays":b=1:c=4:GOSUB akt:GOTO txen:
+IF a=17 AND st(a)=0 THEN st(a)=1:me$(d)="Sicherung des Friedens auf der ganzen Welt in der Genfer Abrüstungskonverenz":FOR e=1 TO 7:b=e:c=4:GOSUB akt:NEXT e:GOTO txen:
+IF a=18 AND st(a)=0 THEN st(a)=1:me$(d)="Auto-,Eisenbahn- und Flugzeugfirmen melden neuen Rekord in Sachen Passagiere":b=2:c=-3:GOSUB akt:b=5:c=1:GOSUB akt:GOTO txen: 
+IF a=19 AND st(a)=0 THEN st(a)=1:me$(d)="Erfindung neuer Stromgewinnungsanlagen bzw. Haushaltsgeräten":b=4:c=3:GOSUB akt:GOTO txen:
+IF a=20 AND st(a)=0 THEN st(a)=1:me$(d)="Reaktorunfall-schlechte Stromversorgung":b=4:c=-3:GOSUB akt:GOTO txen:
+IF a=21 AND st(a)=0 THEN st(a)=1:GOTO Unf:
+IF a>21 AND a<72 THEN gew:
+IF a>71 THEN verl:
+txen:
+NEXT d
+FOR b=0 TO s-1
+FOR a=30 TO 1 STEP -1
+av(a,b)=av(a-1,b)
+gg(a,b)=gg(a-1,b)
+gv(a,b)=gv(a-1,b)
+NEXT a
+gg(0,b)=g(b)
+rar=0
+FOR c=0 TO 54 STEP 18
+FOR d=0 TO 9
+rar=rar+aktien(c+d,b)*ak(c+d)
+NEXT d,c
+FOR d=10 TO 17
+rar=rar+aktien(heim(b)*18+d,b)*ak(heim(b)*18+d)
+NEXT d
+av(0,b)=rar
+gv(0,b)=rar+g(b)
+next b
+Kursanderung:
+tendenz=0
+FOR a=0 TO 71
+b=INT(((RND*15)-7)*100)/100
+ak(a)=INT((ak(a)+(b/100*ak(a)))*100)/100
+akti(a)=INT((ak(a)/s(a,0)*100-100)*100)/100
+IF akti(a)>0 THEN tendenz=tendenz+1
+IF akti(a)<0 THEN tendenz=tendenz-1 
+NEXT a
+COLOR 3,0
+CLS 
+font "sapphire.font",8,0,0
+LOCATE 2,2
+PRINT "1."
+IF s>1 THEN LOCATE 7,2:PRINT "2."
+IF s>2 THEN LOCATE 12,2:PRINT "3."
+IF s>3 THEN LOCATE 17,2:PRINT "4."
+for plIdx=0 to s-1
+COLOR 3,0
+LOCATE 2 + 5 * plIdx,5
+PRINT na$(plIdx+1)
+LOCATE 2 + 5 * plIdx,15
+PRINT "  Geld:";
+PRINT INT(g(plIdx))
+LOCATE 3 + 5 * plIdx,15
+PRINT "Aktien:";
+PRINT INT(av(0,plIdx))
+LOCATE 4 + 5 * plIdx,15
+PRINT "-----------------"
+COLOR 2,0
+LOCATE 5 + 5 * plIdx,15
+PRINT "Gesamt:";
+PRINT INT(gv(0,plIdx))
+next plIdx
+GOSUB farbene:
+WHILE mouse(0)<>0:WEND
+WHILE mouse(0)=0:WEND
+FOR st=1 TO s
+Auswahll:
+if inkey$<>"" then GOTO Auswahll:
+CLS
+COLOR 2,0
+font "ruby.font",8,0,0
+PRINT "1=Aktienkauf"
+PRINT "2=Aktienverkauf"
+PRINT "3=Stats"
+PRINT "4=Zeitung"
+PRINT "5=Reise"
+PRINT "6=Kurse ansehen"
+PRINT "7=Ende"
+napq:
+a$=INKEY$
+IF a$="" THEN napq:
+IF a$="1" THEN kauf:
+IF a$="2" THEN verkauf:
+IF a$="3" THEN stats:
+IF a$="4" THEN Zeitung:
+xyx:
+IF a$="7" THEN NEXT st:GOTO Kurstafel:
+IF a$="6" THEN GOSUB kurstafell:GOTO Auswahll:
+IF a$="5" THEN reise:
+GOTO napq:
+akt:
+IF b>7 THEN kl:
+FOR f=0 TO 71
+IF akt(f)=b THEN ak(f)=INT((ak(f)+(c/100*ak(f)))*100)/100
+NEXT f
+RETURN
+kl:
+IF b=8 THEN l1:
+IF b=9 THEN l2:
+IF b=10 THEN l3:
+IF b=11 THEN l4:
+l1:
+FOR a=0 TO 17
+ak(a)=INT((ak(a)+(c/100*ak(a)))*100)/100
+NEXT a
+RETURN
+Unf:
+t=INT(RND*5)+1
+IF t=5 THEN me$(d)="Schwerer Unfall im L'oreal-Konzern in Paris! Gaswolke bedroht Bevölkerung":ak(21)=INT((.9*ak(21))*100)/100:GOTO txen:
+IF t=1 THEN me$(d)="Schwerer Unfall im Bayer-Konzern in Salt-Lake-City! Verseuchung des Bodens":ak(13)=INT((.9*ak(13))*100)/100:GOTO txen:
+IF t=2 THEN me$(d)="Schwerer Unfall im Bayer-Konzern in Marseille! Verseuchung des Bodens":ak(31)=INT((.9*ak(13))*100)/100:GOTO txen:
+IF t=3 THEN me$(d)="Schwerer Unfall im Bayer-Konzern in Leverkusen! Verseuchung des Bodens":ak(49)=INT((.9*ak(13))*100)/100:GOTO txen:
+IF t=4 THEN me$(d)="Schwerer Unfall im Bayer-Konzern in Yokohama! Verseuchung des Bodens":ak(67)=INT((.9*ak(13))*100)/100:GOTO txen:
+l2:
+FOR a=18 TO 35
+ak(a)=INT((ak(a)+(c/100*ak(a)))*100)/100
+NEXT a
+RETURN
+gew:
+t=INT(RND*71)
+IF st(t+22)=1 THEN txen:
+st(t+22)=1
+ak(t)=INT((1.1*ak(t))*100)/100
+IF t<18 THEN a$="den USA":GOTO sfa:
+IF t<36 THEN a$="Frankreich":GOTO sfa:
+IF t<54 THEN a$="Deutschland":GOTO sfa:
+IF t<72 THEN a$="Japan"
+sfa:
+me$(d)=akt$(t)+" erweitert seinen Konzern in "+a$
+GOTO txen:
+l3:
+FOR a=36 TO 53
+ak(a)=INT((ak(a)+(c/100*ak(a)))*100)/100
+NEXT a
+RETURN
+verl:
+t=INT(RND*71)
+IF st(t+22)=1 THEN txen:
+st(t+22)=1
+ak(t)=INT((.9*ak(t))*100)/100
+IF t<18 THEN a$="den USA ein Teil des Betriebes verkaufen":GOTO sfb:
+IF t<36 THEN a$="Frankreich ein Teil des Betriebes verkaufen":GOTO sfb:
+IF t<54 THEN a$="Deutschland ein Teil des Betriebes verkaufen":GOTO sfb:
+IF t<72 THEN a$="Japan ein Teil des Betriebes verkaufen"
+sfb:
+me$(d)=akt$(t)+" muß in "+a$
+GOTO txen:
+l4:
+FOR a=54 TO 71
+ak(a)=INT((ak(a)+(c/100*ak(a)))*100)/100
+NEXT a
+RETURN
+mau: 
+IF MOUSE(0)<>0 THEN mau:
+maus:
+IF MOUSE(0)=0 THEN maus:
+RETURN
+stats:
+CLS
+GOSUB farbenen:
+FOR a=20 TO 500 STEP 160
+LINE (a,15)-(a+131,132),2,bf
+FOR b=24 TO 126 STEP 6
+LINE (a+3,b)-(a+127,b+4),3,bf
+NEXT b,a
+font "ruby.font",8,0,0
+COLOR 3,2
+LOCATE 3,5
+PRINT "USA"
+LOCATE 3,14
+PRINT "Frankreich"
+LOCATE 3,24
+PRINT " Deutschland"
+LOCATE 3,37
+PRINT "Japan"
+COLOR 0,3
+font "Mini.font",8,0,0
+hi=0
+FOR a=5 TO 22
+LOCATE a,5
+PRINT akt$(a-5)
+NEXT a
+FOR a=5 TO 22
+LOCATE a,32
+PRINT akt$(a+13):NEXT a
+FOR a=5 TO 22
+LOCATE a,59
+PRINT akt$(a+31):NEXT a
+LINE (505,200)-(600,227),3,bf
+FOR a=5 TO 22
+LOCATE a,86
+PRINT akt$(a+49):NEXT a
+COLOR 0,3
+LOCATE 36,91
+PRINT "ENDE"
+COLOR 0,3
+FOR b=23 TO 523 STEP 160
+FOR a=29 TO 131 STEP 6
+LINE (b,a)-(b+124,a),2
+NEXT a,b
+REM WINDOW OUTPUT 1
+REM font "mini.font",8,0,0
+REM CLS
+REM PRINT "Bitte Maustaste druecken"
+mausem:
+IF MOUSE(0)<>0 THEN mausem:
+GOSUB farbene:
+vas:
+hi=0
+IF MOUSE(0)=0 THEN vas:
+v=MOUSE(3)
+vv=MOUSE(4)
+IF v>505 AND v<600 AND vv>200 AND vv<227 THEN COLOR 3,0:GOTO Auswahll:
+IF v>22 AND v<148 THEN gos:
+IF v>182 AND v<308 THEN hi=18:GOTO gos:
+IF v>342 AND v<448 THEN hi=36:GOTO gos:
+IF v>502 AND v<628 THEN hi=54:GOTO gos:
+GOTO vas:
+gos:
+rama=0
+FOR a=24 TO 126 STEP 6
+IF vv<a+5 AND vv>a-1 THEN hi=hi+(a/6-4):rama=1
+NEXT a
+IF rama=0 THEN vas:
+COLOR 2,0
+aktstats:
+CLS
+font "ruby.font",8,0,0
+LOCATE 3,13
+PRINT akt$(hi)
+LINE (50,30)-(482,210),3,bf
+FOR a=50 TO 482 STEP 48
+LINE (a,30)-(a,210),2
+NEXT a
+FOR a=30 TO 210 STEP 10
+LINE (40,a)-(482,a),2
+NEXT a
+LOCATE 27,1:PRINT "   0"
+LOCATE 22,1:PRINT " 400"
+LOCATE 17,1:PRINT " 800"
+LOCATE 12,1:PRINT "1200"
+LOCATE 7,1:PRINT "1700"
+COLOR 2,0
+FOR a=0 TO 9      
+b=9-a
+c=INT(a*48+50)
+d=INT(210-s(hi,b)/10)
+AREA (c,d)
+NEXT a
+AREA (482,210)
+AREA (50,210)
+AREAFILL
+GOSUB mau:
+GOTO stats:
+farbene:
+REM WINDOW CLOSE 1
+REM MOUSE ON
+PALETTE 0,0,0,0
+PALETTE 2,1,0,0
+PALETTE 3,1,.8,0
+PALETTE 4,p(1),pp(1),ppp(1)  
+PALETTE 5,p(2),pp(2),ppp(2)
+PALETTE 6,p(3),pp(3),ppp(3)
+PALETTE 7,p(4),pp(4),ppp(4)
+RETURN
+farbenen:
+REM MOUSE OFF
+REM FOR a=0 TO 3
+REM PALETTE a,0,0,0
+REM NEXT a
+REM PALETTE 9,0,.3,1
+REM WINDOW 1," ",(250,100)-(440,115),0,2
+REM font "Mini.font",8,0,0
+REM COLOR 4,0
+REM PRINT "      Bitte warten"
+REM WINDOW OUTPUT 2
+REM font "mini.font",8,0,0
+RETURN
+Zeitung:
+CLS
+IF heim(st-1)=0 THEN font"New York.font",11,0,0
+IF heim(st-1)=1 THEN font"Paris.font",11,0,0
+IF heim(st-1)=2 THEN font"Frankfurt.font",11,0,0
+IF heim(st-1)=3 THEN font"Tokio.font",11,0,0
+hz=0
+LOCATE 1,1
+FOR d=1 TO 6
+FOR a=41 TO 25 STEP -1
+IF MID$(me$(d),a,1)=" " THEN hz=a-1:a=20
+NEXT a
+IF LEN(me$(d))<41 THEN PRINT me$(d):PRINT :PRINT:GOTO nexd:
+PRINT MID$(me$(d),1,hz)
+PRINT MID$(me$(d),hz+2)
+PRINT 
+nexd:
+NEXT d
+LOCATE 21,1
+COLOR 2,0
+PRINT "Tendenz:";
+COLOR 3,0
+IF tendenz>10 THEN PRINT "Stark"
+IF tendenz<-10 THEN PRINT "Schwach"
+IF tendenz<11 AND tendenz>-11 THEN PRINT "Uneinheitlich"
+GOSUB mau:
+GOTO Auswahll:
+reise:
+IF g(st-1)<100 THEN Auswahll:
+g(st-1)=g(st-1)-100
+CLS
+PRINT "1=New York"
+PRINT "2=Paris"
+PRINT "3=Frankfurt"
+PRINT "4=Tokio"
+while inkey$<>"":WEND
+hha:
+a$=INKEY$
+IF a$="1" THEN heim(st-1)=0:a$="7":GOTO xyx:
+IF a$="2" THEN heim(st-1)=1:a$="7":GOTO xyx:
+IF a$="3" THEN heim(st-1)=2:a$="7":GOTO xyx:
+IF a$="4" THEN heim(st-1)=3:a$="7":GOTO xyx:
+GOTO hha:
+kauf:
+CLS
+GOSUB farbenen:
+font "mini.font",8,0,0
+LINE (230,22)-(361,132),2,bf
+FOR b=24 TO 126 STEP 6
+LINE (233,b)-(357,b+4),3,bf
+NEXT b
+hi=0
+COLOR 0,3
+FOR a=5 TO 22
+LOCATE a,41
+PRINT akt$(heim(st-1)*18+a-5):NEXT a                       
+COLOR 0,2
+LOCATE 36,91
+LINE (505,200)-(600,227),2,bf
+PRINT "ENDE"
+COLOR 2,0
+FOR a=29 TO 131 STEP 6
+LINE (233,a)-(357,a),2
+NEXT a
+lac:
+REM WINDOW OUTPUT 1
+REM font "mini.font",8,0,0
+REM CLS
+REM PRINT "Bitte Maustaste druecken"
+IF MOUSE(0)<>0 THEN lac:
+GOSUB farbene:
+bada:
+hi=0
+IF MOUSE(0)=0 THEN bada:
+v=MOUSE(3)
+vv=MOUSE(4)
+IF v>505 AND v<600 AND vv>200 AND vv<227 THEN COLOR 1,0:GOTO Auswahll:
+IF v<232 OR v>358 THEN bada:
+rama=0
+FOR a=24 TO 126 STEP 6
+IF vv<a+5 AND vv>a-1 THEN hi=hi+(a/6-4):rama=1
+NEXT a
+IF rama=0 THEN bada:
+IF INT(g(st-1)/ak(hi+heim(st-1)*18))<1 THEN bada:
+hallloo:
+CLS
+font "opal.font",8,0,0
+LOCATE 2,15
+PRINT "Wert von ";akt$(hi+heim(st-1)*18);":";s(hi+heim(st-1)*18,0)
+LOCATE 7,20
+PRINT "Maximal:";INT(g(st-1)/s(hi+heim(st-1)*18,0))
+LOCATE 9,15
+PRINT "Maklergebühren:";s(hi+heim(st-1)*18,0)/50
+LOCATE 17,20
+PRINT "Geld:";g(st-1)
+LOCATE 12,21
+PRINT "Anzahl:";
+font "ruby.font",8,0,0
+while inkey$<>"":wend
+INPUT " ",a$
+a=INT(VAL(a$))
+IF a<0 OR a*s(hi+heim(st-1)*18,0)>g(st-1) THEN hallloo:
+aktien(hi+heim(st-1)*18,st-1)=aktien(hi+heim(st-1)*18,st-1)+a
+g(st-1)=g(st-1)-1.02*(a*ak(hi+heim(st-1)*18))
+IF hi+heim(st-1)*18>-1 AND hi+heim(st-1)*18<10 GOTO kauf:    
+IF hi+heim(st-1)*18>17 AND hi+heim(st-1)*18<28 GOTO kauf:
+IF hi+heim(st-1)*18>35 AND hi+heim(st-1)*18<46 GOTO kauf:
+IF hi+heim(st-1)*18>53 AND hi+heim(st-1)*18<64 GOTO kauf:
+FOR a=0 TO 54 STEP 18
+b=hi+heim(st-1)*18
+aktien(a+hi,st-1)=aktien(b,st-1)
+NEXT a
+GOTO kauf:
+verkauf:
+CLS
+GOSUB farbenen:
+font "mini.font",8,0,0
+LINE (230,22)-(361,132),2,bf
+FOR b=24 TO 126 STEP 6
+LINE (233,b)-(357,b+4),3,bf
+NEXT b
+hi=0
+COLOR 0,3
+FOR a=5 TO 22
+LOCATE a,41
+PRINT akt$(heim(st-1)*18+a-5):NEXT a                       
+COLOR 0,2
+LOCATE 36,91
+LINE (505,200)-(600,227),2,bf
+PRINT "ENDE"
+COLOR 2,0
+FOR a=29 TO 131 STEP 6
+LINE (233,a)-(357,a),2
+NEXT a
+REM WINDOW OUTPUT 1
+REM font "mini.font",8,0,0
+REM CLS
+REM PRINT "Bitte Maustaste druecken"
+laci:
+IF MOUSE(0)<>0 THEN laci:
+GOSUB farbene:
+badaa:
+hi=0
+IF MOUSE(0)=0 THEN badaa:
+v=MOUSE(3)
+vv=MOUSE(4)
+IF v>505 AND v<600 AND vv>200 AND vv<227 THEN COLOR 1,0:GOTO Auswahll:
+IF v<232 OR v>358 THEN badaa:
+rama=0
+FOR a=24 TO 126 STEP 6
+IF vv<a+5 AND vv>a-1 THEN hi=hi+(a/6-4):rama=1
+NEXT a
+IF rama=0 THEN badaa:
+IF aktien(hi+heim(st-1)*18,st-1)=0 THEN badaa:
+halllooo:
+CLS
+font "opal.font",8,0,0
+LOCATE 2,15
+PRINT "Wert von ";akt$(hi+heim(st-1)*18);":";s(hi+heim(st-1)*18,0)
+LOCATE 7,20
+PRINT "Maximal:";aktien(hi+heim(st-1)*18,st-1)
+LOCATE 9,15
+PRINT "Maklergebühren:";s(hi+heim(st-1)*18,0)/50
+LOCATE 17,20
+PRINT "Geld:";g(st-1)
+LOCATE 12,21
+PRINT "Anzahl:";
+font "ruby.font",8,0,0
+while inkey$<>"":wend
+INPUT " ",a$
+a=INT(VAL(a$))
+IF a<0 OR a>aktien(hi+heim(st-1)*18,st-1) THEN halllooo:
+aktien(hi+heim(st-1)*18,st-1)=aktien(hi+heim(st-1)*18,st-1)-a
+g(st-1)=g(st-1)+.98*(a*ak(hi+heim(st-1)*18))
+IF hi+heim(st-1)*18>-1 AND hi+heim(st-1)*18<10 GOTO verkauf:    
+IF hi+heim(st-1)*18>17 AND hi+heim(st-1)*18<28 GOTO verkauf:
+IF hi+heim(st-1)*18>35 AND hi+heim(st-1)*18<46 GOTO verkauf:
+IF hi+heim(st-1)*18>53 AND hi+heim(st-1)*18<64 GOTO verkauf:
+FOR a=0 TO 54 STEP 18
+b=hi+heim(st-1)*18
+aktien(a+hi,st-1)=aktien(b,st-1)
+NEXT a
+GOTO verkauf:
+kurstafell:
+COLOR 1,0
+CLS
+font "mini.font",8,0,0
+GOSUB farbenen:
+vv=0
+COLOR 2,0
+LOCATE 1,1
+PRINT "New York:"
+LOCATE 22,1
+PRINT "Paris:"
+LOCATE 1,63
+PRINT "Frankfurt:"
+LOCATE 22,63
+PRINT "Tokio:"
+COLOR 3,0
+FOR b=0 TO 17
+LOCATE 2+b,1
+COLOR 3,0
+IF s(b,0)<10 THEN PRINT ak$(b);"   ";s(b,0);aktien(b,st-1):GOTO nxm:
+IF s(b,0)<100 THEN PRINT ak$(b);"  ";s(b,0);aktien(b,st-1):GOTO nxm:
+IF s(b,0)<1000 THEN PRINT ak$(b);" ";s(b,0);aktien(b,st-1):GOTO nxm:
+PRINT ak$(b);s(b,0);aktien(b,st-1)
+nxm:
+NEXT b
+FOR b=0 TO 17
+LOCATE 23+b,1
+COLOR 3,0
+IF s(b+18,0)<10 THEN PRINT ak$(b+18);"   ";s(b+18,0);aktien(b+18,st-1):GOTO nxc:
+IF s(b+18,0)<100 THEN PRINT ak$(b+18);"  ";s(b+18,0);aktien(b+18,st-1):GOTO nxc:
+IF s(b+18,0)<1000 THEN PRINT ak$(b+18);" ";s(b+18,0);aktien(b+18,st-1):GOTO nxc:
+PRINT ak$(b+18);s(b+18,0);aktien(b+18,st-1)
+nxc:
+NEXT b
+FOR b=0 TO 17
+LOCATE 2+b,63
+COLOR 3,0
+IF s(b+36,0)<10 THEN PRINT ak$(b+36);"   ";s(b+36,0);aktien(b+36,st-1):GOTO nxv:
+IF s(b+36,0)<100 THEN PRINT ak$(b+36);"  ";s(b+36,0);aktien(b+36,st-1):GOTO nxv:
+IF s(b+36,0)<1000 THEN PRINT ak$(b+36);" ";s(b+36,0);aktien(b+36,st-1):GOTO nxv:
+PRINT ak$(b+36);s(b+36,0);aktien(b+36,st-1)
+nxv:
+NEXT b
+FOR b=0 TO 17
+COLOR 3,0
+LOCATE 23+b,63
+IF s(b+54,0)<10 THEN PRINT ak$(b+54);"   ";s(b+54,0);aktien(b+54,st-1):GOTO nxb:
+IF s(b+54,0)<100 THEN PRINT ak$(b+54);"  ";s(b+54,0);aktien(b+54,st-1):GOTO nxb:
+IF s(b+54,0)<1000 THEN PRINT ak$(b+54);" ";s(b+54,0);aktien(b+54,st-1):GOTO nxb:
+PRINT ak$(b+54);ak(b+54);aktien(b+54,st-1)
+nxb:
+NEXT b
+GOSUB farbene:
+GOSUB mau:
+RETURN

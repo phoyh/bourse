@@ -1,0 +1,6 @@
+cd src
+LoadScreen "/images/Titel"
+SongPlayer /music/Lied -m
+CloseScreen "/images/Titel"
+
+Basic:amigabasic "Starter"
