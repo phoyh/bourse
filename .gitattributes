@@ -1,2 +1,8 @@
+bmaps/* linguist-vendored
+c/* linguist-vendored
+fonts/** linguist-vendored
+images/* linguist-generated
+intro-manual/* linguist-generated
+libs/* linguist-vendored
+music/* linguist-generated
 src/* linguist-language=BASIC
-src-tokenized/* linguist-generated
